@@ -1,0 +1,321 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[top=0.85in,left=0.75in,footskip=0.75in,marginparwidth=2in]{geometry}
+
+% use Unicode characters - try changing the option if you run into troubles with special characters (e.g. umlauts)
+\usepackage[utf8]{inputenc}
+
+% clean citations
+\usepackage{cite}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% hyperref makes references clicky. use \url{www.example.com} or \href{www.example.com}{description} to add a clicky url
+\usepackage{nameref,hyperref}
+
+% line numbers
+\usepackage[right]{lineno}
+
+\usepackage{ragged2e}
+
+% improves typesetting in LaTeX
+\usepackage{microtype}
+\DisableLigatures[f]{encoding = *, family = * }
+
+% text layout - change as needed
+\raggedright
+\setlength{\parindent}{0.5cm}
+\textwidth 6.8in 
+\textheight 8.75in
+
+% use adjustwidth environment to exceed text width (see examples in text)
+\usepackage{changepage}
+
+% adjust caption style
+\usepackage[aboveskip=1pt,labelfont=bf,labelsep=period,singlelinecheck=off]{caption}
+
+% remove brackets from references
+\makeatletter
+\renewcommand{\@biblabel}[1]{\quad#1.}
+\makeatother
+
+% headrule, footrule and page numbers
+\usepackage{lastpage,fancyhdr,graphicx}
+\usepackage{epstopdf}
+\pagestyle{myheadings}
+\pagestyle{fancy}
+\fancyhf{}
+\rfoot{\thepage/\pageref{LastPage}}
+\renewcommand{\footrule}{\hrule height 2pt \vspace{2mm}}
+\fancyheadoffset[L]{0.25in}
+\fancyfootoffset[L]{0.25in}
+
+% use \textcolor{color}{text} for colored text (e.g. highlight to-do areas)
+\usepackage{color}
+
+% define custom colors (this one is for figure captions)
+\definecolor{Gray}{gray}{.25}
+
+% this is required to include graphics
+\usepackage{graphicx}
+
+% use if you want to put caption to the side of the figure - see example in text
+\usepackage{sidecap}
+
+% use for have text wrap around figures
+\usepackage{wrapfig}
+\usepackage[pscoord]{eso-pic}
+\usepackage[fulladjust]{marginnote}
+\reversemarginpar
+
+%\usepackage{showframe}
+
+\graphicspath{{figures/}}
+
+% line numbers
+%\usepackage[mathlines, switch]{lineno}
+%\usepackage[right]{lineno}
+\usepackage{siunitx}
+\DeclareSIUnit\angstrom{\text {Å}}
+
+%\usepackage{tikz}
+\usepackage{bm}
+
+\usepackage{xcite}
+
+\usepackage{hyperref}
+
+\usepackage{xr}
+\makeatletter
+\newcommand*{\addFileDependency}[1]{% argument=file name and extension
+  \typeout{(#1)}% latexmk will find this if $recorder=0 (however, in that case, it will ignore #1 if it is a .aux or .pdf file etc and it exists! if it doesn't exist, it will appear in the list of dependents regardless)
+  \@addtofilelist{#1}% if you want it to appear in \listfiles, not really necessary and latexmk doesn't use this
+  \IfFileExists{#1}{}{\typeout{No file #1.}}% latexmk will find this message if #1 doesn't exist (yet)
+}
+\makeatother
+
+\newcommand*{\myexternaldocument}[1]{%
+    \externaldocument{#1}%
+    \addFileDependency{#1.tex}%
+    \addFileDependency{#1.aux}%
+}
+%%% END HELPER CODE
+
+% put all the external documents here!
+\myexternaldocument{main-si_biorxiv}
+
+% document begins here
+\begin{document}
+\vspace*{0.35in}
+
+\begin{flushleft}
+{\Large
+\textbf\newline{ColBuilder: Flexible structure generation of crosslinked collagen fibrils}
+}
+\newline
+% authors go here:
+\\
+Debora Monego\textsuperscript{1,2,*,†},
+Matthias Brosz\textsuperscript{2,3,†},
+Johanna Buck\textsuperscript{1,2,3},
+Vsevolod Viliuga\textsuperscript{1,4,5},
+Jaewoon Jung\textsuperscript{6,7},
+Torsten Stuehn\textsuperscript{1},
+Matthias Schmies\textsuperscript{1},
+Yuji Sugita\textsuperscript{6,7},
+Frauke Gr\"ater\textsuperscript{1,2,3,*}
+\\
+\bigskip
+\bf{1} Max Planck Institute for Polymer Research, Ackermannweg 10, Mainz, Germany
+\\
+\bf{2} Heidelberg Institute for Theoretical Studies, Am Schloss-Wolfsbrunnenweg 35, Heidelberg, Germany
+\\
+\bf{3} Institute for Scientific Computing, Heidelberg University, Im Neuenheimer Feld 205, Heidelberg, Germany
+\\
+\bf{4} Science for Life Laboratory, Tomtebodavägen 23, Solna, Sweden
+\\
+\bf{5} Department of Biochemistry and Biophysics, Stockholm University, Svante Arrhenius Väg 16C, Stockholm, Sweden
+\\
+\bf{6} Computational Biophysics Research Team, RIKEN Center for Computational Science, Kobe, Yogo, Japan
+\\
+\bf{7} Theoretical Molecular Science Laboratory, RIKEN Center for Computational Science, Wako, Saitama, Japan
+\\
+\bigskip
+† These authors contributed equally to this work
+\\
+* Corresponding authors: frauke.graeter@mpip-mainz.mpg.de, monegod@mpip-mainz.mpg.de
+
+\end{flushleft}
+
+
+\justifying
+\section*{Abstract}
+Collagen fibrils are fundamental building blocks of connective tissues, yet generating accurate molecular models of their structure remains challenging due to their hierarchical organization and complex crosslinking patterns. ColBuilder has been developed to automate the generation of atomistic models of crosslinked collagen fibrils and facilitate the setup of molecular simulations. The tool integrates homology modeling, higher-order structure generation and optimization to build complete fibril structures with precise control over sequence composition, crosslinking patterns, and dimensions. Users can explore different collagen sequences, manipulate crosslink chemistry through mixed ratios and densities, and generate fibrils of varying diameter and length. All-atom molecular dynamics simulations of \SI{335}{\nano\meter}-long fibrils validate the generated structures, showing excellent agreement with experimental measurements of D-band periodicity and force-extension behavior. ColBuilder is available both as an open-source command-line application and through a web interface at \href{https://colbuilder.mpip-mainz.mpg.de}{colbuilder.mpip-mainz.mpg.de}.
+
+%\linenumbers
+
+\section*{Introduction}
+
+Collagen fibrils are integral components of the extracellular matrix, playing a crucial role in the structural integrity and mechanical properties of various tissues. Understanding the structural and functional dynamics of collagen fibrils is essential for advancing tissue engineering strategies and elucidating mechanisms of collagen-related diseases. However, this understanding remains challenging due to the hierarchical complexity and intricate assembly processes of collagen fibrils \cite{kadler1996collagen, shoulders2009collagen}. While experimental techniques such as X-ray crystallography \cite{orgel2006microfibrillar} and nuclear magnetic resonance (NMR) \cite{jelinski19802h, peixoto2013solid} have provided valuable atomic-level information, they often struggle to resolve the full complexity of collagen structures, particularly in capturing heterogeneity and flexibility.
+
+Computational modeling and molecular dynamics (MD) simulations have emerged as powerful complementary tools to address these limitations. These approaches enable detailed exploration of collagen fibril conformations \cite{streeter2010atomistic, monti2005toward}, dynamics \cite{depalle2015influence,zapp2020mechanoradicals}, and interactions \cite{perumal2008collagen, streeter2011amolecular}. However, preparing accurate initial models for such simulations can be labor-intensive and error-prone, often requiring the integration of multiple tools, data sources, and specialized expertise. While dedicated tools exist for generating models of specific biological systems, such as CHARMM-GUI and Packmol for membranes \cite{lee2018charmm, martinez2009packmol} and nanodiscs \cite{qi2019charmm}, there has been a notable absence of analogous tools for filamentous proteins like collagen.
+
+To address this gap, some of us previously developed ColBuilder, a database offering pre-compiled atomistic models of the D-band region of the collagen I fibril \cite{obarska2021colbuilder}. We now introduce the tool ColBuilder, which significantly expands upon its predecessor's capabilities by enabling end-to-end generation of complex collagen fibrils. ColBuilder implements a template-based modeling strategy, using experimentally derived collagen structures as a foundation for generating diverse fibril models. Key advancements include: (1) homology modeling capabilities for collagens from different species and compositions, (2) advanced crosslinking manipulation, allowing users to mix different crosslinks at varying ratios or control crosslinks density, and (3) full control over the final fibril's diameter and length. These features directly address the limitations of current computational approaches by providing a streamlined, accurate, and flexible tool for collagen fibril modeling.
+
+ColBuilder is provided as both an open-source command line application built with Python (\href{https://github.com/graeter-group/colbuilder}{github.com/graeter-group/colbuilder}) and an accompanying web interface (\href{https://colbuilder.mpip-mainz.mpg.de}{colbuilder.mpip-mainz.mpg.de}). To facilitate the use of our models in MD simulations, we also provide a topology generation option and Amber force field parameters for different lysine-derived crosslink types. We have conducted a comprehensive validation study using computational and experimental benchmarks to assess the accuracy and reliability of ColBuilder's output. The versatility of ColBuilder extends its value beyond MD simulations, with potential applications in Cryo-Electron Microscopy (Cryo-EM) model fitting and as templates for protein design. Finally, we hope that the approach we used in ColBuilder will be transferable to model other filamentous protein materials, such as fibronectin and intermediate filaments.
+
+\section*{ColBuilder: Methodology and Results}\label{sec2}
+
+Figure \ref{fig:colbuilder-workflow} illustrates the workflow of ColBuilder for collagen fibril generation. The primary input is a 3D structure of a single collagen triple helix in PDB format, including unit cell symmetry information. ColBuilder offers two main pathways: (1) direct fibril generation, where users specify desired dimensions and crosslinking parameters, and (2) sequence modification and modeling, where users can input custom crosslinking specifications or alter the template's amino acid sequence. In both cases, the resulting higher-order structure is optimized within a Bravais lattice, with appropriate crosslinking of triple helices.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/workflow.png}
+    \caption{Workflow diagram of ColBuilder, showing the main steps including choice of input structure, generation of copies and their translation to form the higher-order structure, lattice optimization in Bravais lattice and crosslinking to form the final optimized collagen fibril model.}
+    \label{fig:colbuilder-workflow}
+\end{figure}
+
+\subsection*{Homology Modeling and Initial Structure Generation}\label{subsec1}
+
+ColBuilder accommodates two distinct input pathways, each initiating a different processing workflow. Users can either use a previously optimized model of collagen I in PDB format and containing collagen fibril's unit cell definition, or input a custom collagen amino acid sequence in the FASTA format. In the case of direct structure input, ColBuilder utilizes the provided structure without the need for homology modeling. However, when an amino acid sequence is provided, the software employs a homology modeling process to generate the initial structure.
+
+For amino acid sequence inputs, our homology modeling process uses a template structure of rat collagen type I, derived from the model used in the previous version of ColBuilder \cite{obarska2021colbuilder}. The process begins with a two-step alignment procedure implemented using Biopython \cite{Cock2009} to preserve the structural integrity of the collagen triple helix. First, we align the three chains within the template collagen molecule, ensuring the conservation of the characteristic Gly-X-Y repetitive pattern; this aligned triple helix template is then aligned with the target sequence using MUSCLE v3.8.31 \cite{Edgar2004}. This method allows for the introduction of species-specific variations or desired mutations while maintaining the core collagen structure.
+
+MODELLER performs the homology modeling using a refinement protocol that prioritizes backbone stability. This approach substitutes amino acids without significantly altering the overall backbone conformation, which is critical for maintaining the triple helical structure characteristic of collagen. We validated this procedure for 18 different species with a range of sequence identities (\(\approx 70-98\%\)) to the rat collagen I template. Structural consistency was assessed by per-residue RMSD calculations and preservation of key collagen motifs, particularly the Gly-X-Y pattern. For all sequences tested, the per-residue RMSD was consistently below \SI{2}{\angstrom} and the average axial rise per triplet (i.e., the distance between consecutive Gly-C\(^\alpha\) in the triple helix) is in agreement with the expected value of approximately \SI{8.6}{\angstrom} for collagen triple helices \cite{bella1994crystal} (see Supplementary Information, Figure S\ref{fig:SI_homology_rmsd_id} and Table S\ref{table:SI_homology}), demonstrating the robustness of our method.
+
+ColBuilder's homology modeling feature greatly enhances its versatility compared to its predecessor, enabling users to generate and analyze collagen structures from different species or with specific mutations. While our approach produces accurate molecular-level structures, we advise users to carefully examine models generated from sequences that deviate significantly from our template (rat collagen, type I). Additionally, it is important to note that fibril-level organization may vary between species, as experimental structural data at this scale is primarily derived from native rat type I collagen \cite{orgel2006microfibrillar}.
+
+\subsection*{Higher-Order Structure Generation}\label{subsec2}
+
+Building upon the initial collagen template, ColBuilder generates higher-order structures using UCSF Chimera v1.15's crystal contacts command \cite{pettersen2004chimera}. The process begins with a collagen molecule coordinate file in PDB format, defining atoms \(A={a_1,...,a_N}\) at positions \(\bm{Q}=\left(\bm{q}_1,...,\bm{q}_N\right)\), along with a user-specified contact distance. The algorithm extracts crystallographic information from the input file, including lattice parameters (\(a, b, c, \alpha, \beta, \gamma\)), space group (\(G_{SP}\)), and crystal orientation matrix \(\bm{C}\). This information defines the unit cell and guides the generation of the higher-order fibril structure. ColBuilder then generates multiple symmetry copies of the unit cell using Euclidean transformation matrices \(\bm{T}=(\bm{R},\bm{t})\), where \(\bm{R}\) and \(\bm{t}\) represent rotation and translation, respectively. Specifically, each atom in the new set \(A^\prime\) undergoes a transformation according to the equation:
+
+\begin{equation}
+    \bm{T}(\bm{q}_i)=\bm{R}\bm{q}_i + \bm{t},
+    \label{eq:rigid_tranform}
+\end{equation}
+ 
+where \(i=1,...,N\). The new symmetry copies have positions \(\bm{Q}^\prime=\bm{T}(\bm{q}_1,...,\bm{q}_N)=\left(\bm{q}^\prime_1,...,\bm{q}^\prime_N\right)\) \cite{bennet2010xray}. 
+
+The contact distance parameter (\(dc\)) in UCSF Chimera's crystal contacts tool determines the cutoff distance for including symmetry-related copies of the unit cell. As this distance increases, more symmetry operations are applied, incorporating unit cells that are further from the origin in the crystal lattice. This results in the generation of larger fibril structures. The exact relationship between contact distance and fibril diameter is complex, depending on the unit cell parameters, space group, and specific symmetry operations of the collagen crystal structure. Figure S\ref{fig:SI_contact_distance_vs_radius} in the Supplementary Information shows the empirical relationship between the contact distance parameter and the resulting fibril radius generated by ColBuilder, demonstrating how users can control the size of the generated microfibril structure by adjusting this parameter. We note that for contact distances \(dc \leq 15\), only up to a couple of complete unit cells are included, and increasing \(dc\) has no effect in the overall fibril diameter.
+
+A critical step in the higher-order structure generation process is the identification and removal of steric clashes between atoms from different symmetry copies. Our algorithm ensures physically realistic structures by considering the van der Waals radii (\(r_{w,i}, r_{w,j}\)) of interacting atoms. It generates a coordinate file of the higher-order structure and transformation matrices for each symmetry copy, enabling subsequent refinement on a discrete Bravais lattice. The resulting system is an ensemble of models \(\bm{\mu}=(\mu_1,...,\mu_M)\), where each model \(\mu_m\) contains information about its crosslinks \(A^c_m \subset A_m\) (if present), Euclidean transformation \(\bm{T}_m\), and Bravais lattice point \(p_m\). Any crosslink present in the model is characterized by type (divalent or trivalent; for details, see next section), residue ID, residue name, chain ID, and atomic positions \(Q^c_m=(q^c_{m,i},...,q^c_{m,k})\) in Cartesian coordinates.
+
+\subsubsection*{Structure Optimization}\label{subsubsec1}
+
+To efficiently represent the quasi-crystalline nature of collagen fibrils, we map higher-order structures from Cartesian space \((\mathbb{R}^3)\) to a discrete lattice \(((n_x,n_y,n_z)\in\mathbb{Z}^3)\) using the crystal orientation matrix \(\bm{C}\) (Equation \ref{eq:crystal_orientation_matrix}). Transformations between spaces are performed using \(\bm{p} = \bm{C}^{-1} \bm{t}\), where \(\bm{t}\) represents the Cartesian translation vector and \(\bm{p}\) the corresponding lattice point.
+
+\begin{equation}
+	\bm{C} =
+	\begin{pmatrix}
+		a & b\cdot\cos \gamma & c\cdot\cos \beta\\
+		0 &  b\cdot\sin \gamma& c\cdot\left(\cos \alpha -\frac{\cos \beta\cdot\cos \gamma}{\sin \gamma}\right) \\
+		0 & 0 & \sqrt{c^2 - c_{xz}^2 - c_{yz}^2} \\
+	\end{pmatrix}
+	,
+	\label{eq:crystal_orientation_matrix}
+\end{equation}
+
+Initial structural analysis of the microfibril revealed a centrosymmetrical pattern with an inversion center at the lattice origin, consistent with the triclinic unit cell of collagen. However, we observed a 35\% higher point density within \SI{10}{\nano\meter} of the origin compared to regions beyond \SI{50}{\nano\meter}, indicating denser packing of collagen triple helices near the center. This is a consequence of the finite size of the fibril, resulting in less triple helices at the boundaries of the fibril. Connectivity analysis showed that 73\% of molecules were crosslinked at one end, 18\% at both ends, and 9\% remained unconnected, highlighting the need for structural optimization.
+
+To address these issues, we developed a layer-by-layer optimization approach on the Bravais lattice. The process begins by defining the solution space using \(\bm{\delta} = (\delta_x,\delta_y,\delta_z)\), which restricts possible solutions to a finite set (Figure \ref{fig:bravais_lattice}A, light yellow box). The \(\delta_z\) parameter selects the number of \(n_x,n_y\)-layers for optimization. For instance, setting \(\delta_z = 2\) defines the solution space as the two upper (\( n_{z,\text{min}}+\delta_z, n_{z,\text{min}}+\delta_z-1 \)) and two lower (\({n_{z,\text{max}}-\delta_z, n_{z,\text{max}}-\delta_z+1}\)) layers from \(\bm{l_z}\) for optimization. For each layer \(l_z \in \bm{l_z}\), we define a set of points \(\bm{P_z} = (\bm{p_{i,x}},\bm{p_{i,y}},l_z)\) with \(i = 1, ..., N_z\). We then determine the extreme values in the \(n_x,n_y\) dimensions to create vectors \(\bm{l_x}\) and \(\bm{l_y}\), which span a rectangular plane \(\bm{P_{z,\text{rec}}} = (\bm{l_x}, \bm{l_y}, l_z)\) (Figure \ref{fig:bravais_lattice}A, light purple squares). The optimization space is defined as \(\bm{P_{z,\text{opt}}} = \bm{P_{z,\text{rec}}} \setminus \bm{P_z}\).
+
+The algorithm proceeds by randomly selecting points \(\bm{p'} \in \bm{P_{z,\text{opt}}}\) and mapping them to Cartesian space to obtain transformation matrices \(\bm{T'}\) and translation vectors \(\bm{t'}\). We translate the model \(\mu_1\) crosslink positions by \(\bm{t'}\) and check intercrosslink distances between the new potential model \(\bm{\mu'}\) and existing models \(\bm{\mu}\) (Figure \ref{fig:bravais_lattice}A, light purple squares). Contact criteria are defined based on a \SI{0.3}{\nano\meter} cutoff for interatomic distances, which is typical for non-covalent interactions in proteins. If these criteria are met between \(\bm{\mu'}\) and existing models, we incorporate \(\bm{\mu'}\) into the system as \(\bm{\mu_{M+1}}\); otherwise, we discard it. The solution space is updated after each iteration, and the process continues until the current layer's solution space is exhausted. We then move to the next layer and repeat the process until all layers are optimized (Figure \ref{fig:bravais_lattice}B).
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=0.6\linewidth]{figures/bravais_lattice.png}
+    \caption{Structural optimization process of a collagen fibril on a Bravais lattice. Starting with an initial system of triple helices \(\mu\) (green points) arranged on a Bravais lattice (A), the process selects a layer \(l_z\) for optimization. This layer spans an optimization space \(\bm{P_m}\) containing potential new triple helices \(\mu'\) (light purple). Each potential triple helix \(\mu'\) is evaluated for possible crosslinking with existing helices in the model. Triple helices that can be crosslinked (yellow points) are then added to the original system, resulting in an optimized structure (B). This procedure can be repeated for any number of \(n_x, n_y-\)layers, gradually enhancing the fibril's structural integrity while maintaining its lattice arrangement.}
+    \label{fig:bravais_lattice}
+\end{figure}
+
+The optimized models and transformation matrices are combined using UCSF Chimera's \textit{matrixset} command to generate an atomistic structure of the collagen microfibril. Post-processing involves cutting each triple helix to the user-specified length (up to \SI{335}{\nano\meter}) and capping termini with neutral Acetyl (ACE) or N-Methyl (NME) groups, preparing the structure for subsequent molecular dynamics simulations.
+
+Our optimization approach resulted in substantial enhancements to the collagen microfibril's structural properties. We observed a 28\% improvement in packing uniformity, quantified by the reduction in point density standard deviation across the lattice. The optimized structures showed excellent agreement with experimental data. We measured an average D-band periodicity of \SI{66.95}{} \(\pm\) \SI{0.01}{\nano\meter}, closely aligning with the experimentally inferred value of \SI{67}{\nano\meter}. To calculate this periodicity, we applied K-means clustering \cite{macqueen1967some, pedregosa2011scikit} (k=10) to the z-coordinates of cross-linking residues, identifying distinct bands along the fibril axis. The D-band was then computed as the sum of the gap and overlap distances between adjacent clusters, with distances below \SI{38}{\nano\meter} classified as overlaps and those above as gaps. Additionally, we observed an average lateral molecular spacing of \SI{1.44}{} \(\pm\) \SI{0.12}{\nano\meter}, which falls within the range of reported experimental values (\SI{1.1}{\nano\meter} for completely dry tissue to \SI{1.8}{\nano\meter} for fresh tissue \cite{fratzl1993collagen}). This lateral spacing was calculated by projecting the molecule coordinates onto a plane perpendicular to the fibril's principal axis, followed by a nearest-neighbor analysis in each quadrant around individual molecules to determine local spacings. 
+
+The flexibility of our approach allows for the exploration of different packing configurations by modifying the solution space. For example, considering up to the fourth layer in the \(n_z\) dimension (\(\delta_z=4\)) results in a Bravais lattice with a slightly different geometrical arrangement of points, particularly for layers closer to the lattice origin. This adaptability enables fine-tuning of the optimization process to meet specific structural requirements or investigate various packing configurations.
+
+Notably, our Bravais lattice-based optimization method demonstrated a tenfold increase in computational efficiency for basic operations compared to traditional Cartesian approaches. In conclusion, our procedure provides an efficient and flexible approach to generate realistic collagen microfibril structures. The resulting models not only exhibit improved structural properties but also align closely with experimental observations, making them valuable for further computational studies of collagen mechanics and function.
+
+\subsection*{Crosslink Specification for Collagen Microfibrils}\label{subsec3}
+
+Collagen microfibrils are stabilized by intermolecular covalent crosslinks derived from lysine and hydroxylysine residues in the telopeptide regions of the triple helix. These include divalent crosslinks such as hydroxylysine-keto-norleucine (HLKNL) and trivalent crosslinks like hydroxylysyl-pyridinoline (PYD). The overall crosslinking density and the ratio of different crosslink types varies across species, tissues types and age, and is further altered by disease \cite{snedeker2014therole}. ColBuilder enables precise control over the composition and density of these crosslinks, accommodating various types and combinations (see Figure S\ref{fig:SI_crosslinks} in the Supplementary Information for a full list of available structures).
+
+The tool offers two specification methods. First, users can mix triple helices with different crosslink types by defining their ratios. The algorithm then randomly combines these helices to generate a microfibril with the desired composition. Second, ColBuilder can randomly remove existing crosslinks, replacing them with lysine residues using Chimera's \textit{swapaa} command \cite{pettersen2004chimera}, at a user-defined rate. 
+
+Figure \ref{fig:simulations_results}D shows three different crosslink setups generated based on the Bravais lattice: pure trivalent, trivalent with randomly removed crosslinks, and mixed divalent-trivalent. Trivalent PYD crosslinks (shown in green) are located at the transition between gap and overlap regions (\ref{fig:simulations_results}A), linking adjacent triple helices. The cross-section of this microfibril reveals equally spaced crosslinks forming a rounded shape. The second setup demonstrates the  capability of ColBuilder to generate models with varying crosslinking density. We reduced the number of PYD crosslinks within the pure trivalent crosslinked microfibril by randomly replacing 30\% of the trivalent crosslinks with lysine residues. This resulted in a microfibril with 70\% pure PYD crosslinks, featuring a significantly lower crosslink density compared to the other two microfibrils. For the mixed divalent-trivalent crosslinked microfibril, we defined four types of collagen molecules based on their crosslinks at each telopeptide region: divalent-divalent, trivalent-divalent, divalent-trivalent, and trivalent-trivalent. These were combined in equal proportions, resulting in a microfibril containing both divalent HLKNL (yellow) and trivalent PYD (orange) crosslinks.
+
+These approaches allow for fine-tuning of crosslink density and composition, which are expected to significantly affect the microfibril's mechanical properties at both macro and microscopic scales \cite{kwansa2016tensile, rennekamp2023collagen}. Additionally, users can add their own crosslink structures to ColBuilder's database, enabling them to model and study the impact of crosslinking variations on fibril structure and mechanics, critical for understanding conditions such as aging and diseases where crosslink patterns and types are altered \cite{monnier1996mechanism, snedeker2014role}.
+
+\subsection*{All-Atom Simulations validate models from ColBuilder}\label{subsec4}
+
+To validate the stability and force-extension behavior of the collagen microfibrils generated by ColBuilder, we performed all-atom molecular dynamics simulations. To demonstrate the capabilities of ColBuilder, we chose a fibril length of \SI{335}{\nano\meter} which covers the length of a full triple helix, resulting in 5 complete gap and 4 complete overlap regions. This goes far beyond previous all-atom MD simulations of one gap and one overlap region, the only system size available in our previous database \cite{obarska2021colbuilder}. We generated the microfibril topology using GROMACS 2023 \cite{van2005gromacs}, combining the Amber99sb*-ildnp force field \cite{best2009optimized, lindorff2010improved} for the protein and TIP3P for water with GROMACS' \textit{pdb2gmx} tool. The simulations of our system of approximately 43 million atoms were conducted using the GENESIS MD engine on the Fugaku supercomputer \cite{jung2024genesis,jung2021new}.
+
+Our protocol began with energy minimization in vacuum, followed by solvation and further minimization. We then equilibrated the system through a series of steps: (1) NVT simulation at \SI{300}{\K} over \SI{10}{\nano\s} using the stochastic velocity rescaling (SVR) \cite{bussi2007accurate} with gradually increasing time steps (\SI{0.5} to \SI{2}{\text{f}\s}), and (2) \SI{5}{\nano\s} NPT simulation at \SI{1}{\text{atm}} and \SI{300}{\K} using the SRV thermostat and the Martyna-Tobias-Klein (MTK) barostat \cite{martyna1994constant}, with gradually increasing time steps (\SI{0.5} to \SI{2}{\text{f}\s}). Throughout equilibration, backbone atoms were position-restrained (force constant is decreased gradually from \SI{2.5}{kcal mol^{-1} \angstrom^{-2}} to \SI{1.0}{kcal mol^{-1} \angstrom^{-2}} in the NVT equilibration and from \SI{1.0}{kcal mol^{-1} \angstrom^{-2}} to \SI{0.3}{kcal mol^{-1} \angstrom^{-2}} in the NPT simulation) to maintain microfibril structure while allowing side-chain relaxation. Periodic boundary conditions were applied in all directions. We used group-based thermostat/barostat with optimal temperature evaluation \cite{jung2018optimal,jung2020group}.
+
+To allow the \SI{300}{\nano\meter} system to structurally adopt to the applied external force, we implemented a multi-step constant force protocol, incrementally increasing force to \SI{1}{\nano\N} per strand over \SI{16.5}{\nano\s}, followed by a \SI{495}{\nano\s} sustained load simulation. This force magnitude was chosen based on estimated physiological loads on individual collagen molecules, corresponding to stresses in the tens of \SI{}{\mega\text{P}} range \cite{komi1990relevance}, and the duration was determined to be sufficient for observing initial structural reorganization based on previous studies \cite{zapp2020mechanoradicals}. 
+
+Figure~\ref{fig:simulations_results}A shows a snapshot of the collagen microfibril with trivalent PYD crosslinks under the applied force. Notably, no collagen molecule was pulled out during the simulation, demonstrating the structural integrity of our model. The snapshot also reveals differences in molecular packing and stretching between gap and overlap regions under force, with the overlap region showing more parallel alignment of collagen triple helices and less elongation compared to the more intertwined gap region.
+
+\begin{figure}[!t]
+    \centering
+    \includegraphics[width=\linewidth]{figures/simulations_validation.png}
+    \caption{Validation of collagen models with molecular dynamics simulations. (A) Simulation snapshot of a \SI{335}{\nano\meter}-long pulled collagen fibril, illustrating multiple gap and overlap regions with crosslink atoms highlighted as green spheres. (B) D-band distance in \SI{}{\nano\meter} and (C) overlap/gap strain ratio evolution with simulation time (\SI{}{\nano\sec}) for different collagen models illustrated in (D) (insets in (B) show overlap and gap distances early in the simulation, when the fibril was going through greater structural change due to pulling). (D) Cross-sections of collagen fibrils with pure (100\% PYD, green), mutated (70\% PYD, purple), and mixed (50\% PYD + 50\% HLKNL, orange) crosslinks. In both B and C, experimentally reported values \cite{peacock2019nanomechanical} are shown by the dashed pink line. Error bars represent the standard error of the mean, combining frame-wise variability and trajectory uncertainty, and are horizontally offset for clarity. Error magnitude remains approximately constant throughout the simulation, and line plots show true data. Detailed methods for error calculations are provided in the SI.}
+    \label{fig:simulations_results}
+\end{figure}
+
+We analyzed the mechanical response by measuring three key parameters: end-to-end distance of the entire microfibril, D-band distance - defined as the sum of overlap and gap region lengths -, and the overlap/gap strain ratio - calculated as the ratio between the extensions of overlap and gap regions. These measurements were conducted for three distinct crosslink configurations: pure trivalent, partly trivalent (70\% trivalent, 30\% absent), and mixed divalent-trivalent crosslinked microfibrils. This approach allowed comparison of their mechanical behaviors under load. To ensure reproducibility and assess variability, we performed three independent simulations for each crosslink configuration.
+
+Our results show that all distance measures increased sharply at the onset of force application before asymptotically approaching constant values. The \SI{335}{\nano\meter}-long microfibril extended by approximately 23\%, with the partly trivalent crosslinked microfibril stretching the most (\(>\)\SI{409}{\nano\meter}), followed closely by the pure trivalent and mixed crosslinked microfibrils (\(\approx\)\SI{408}{\nano\meter}) (Figure S\ref{fig:SI_e2e_distance}, in the Supplementary Information).
+
+The D-band stretching, resulting from the sum of gap and overlap region elongations, showed similar trends (Figure \ref{fig:simulations_results}B). We observed elongations of \SI{82.4}{\nano\meter} and \SI{82.8}{\nano\meter} for the pure trivalent/mixed divalent-trivalent and the partly trivalent crosslinked microfibrils, respectively. Notably, this 22\% applied strain D-band elongation aligns well with both smaller-scale AA simulations under force (\SI{82.5}{} \(\pm\) \SI{1.0}{\nano\meter}) and atomic force microscopy (AFM) nanoindentation experiments from the literature (\SI{80}{} to \SI{82.5}{\nano\meter}) \cite{rennekamp2023collagen, gachon2020stretching, peacock2019nanomechanical, minary2009nanomechanical}.
+
+The overlap region exhibited a unique stretching pattern (inset of Figure \ref{fig:simulations_results}B), with an initial sudden increase from \SI{27.9}{\nano\meter} to \SI{31.3}{\nano\meter}, followed by a gradual decrease to constant values of \SI{30.3}{\nano\meter} and \SI{30.7}{\nano\meter} for the mixed divalent-trivalent and the pure/partly trivalent crosslinked microfibrils, respectively. Concurrently, the gap region (also shown in the inset of Figure \ref{fig:simulations_results}B) expanded from \SI{39.7}{\nano\meter} to \SI{52.1}{\nano\meter} for the partly trivalent and mixed crosslinked microfibrils, and to \SI{51.7}{\nano\meter} for the pure trivalent microfibril. These measurements yielded an average overlap-gap strain ratio of 25\% to 30\% (Figure \ref{fig:simulations_results}C), suggesting that the overlap region is approximately three to four times stiffer than the gap region. This finding agrees well with AFM nanoindentation experiments reporting a 25\% to 100\% higher stiffness in the overlap region compared to the gap region \cite{minary2009nanomechanical, peacock2019nanomechanical}.
+
+It is important to note that these mechanical properties can vary depending on factors such as collagen type and tissue of origin (e.g., Achilles or rat tail tendon), experimental conditions (fibril humidity, temperature), and applied force or strain. Despite these potential variations, our collagen microfibrillar structure largely reproduces key structural and mechanical observables reported in the literature, particularly the D-band lengthening and the overlap-gap strain ratio. These results validate the structural integrity of the collagen microfibrils generated by ColBuilder, demonstrating their suitability for further studies of collagen mechanics and function under physiologically relevant conditions.
+
+\subsection*{Computational Performance}\label{subsec5}
+
+To assess the efficiency of ColBuilder, we analyzed its computational performance in relation to the size and complexity of the generated collagen microfibrils. We measured the wall clock time - the actual time taken to complete a run - for various configurations, focusing on how it scales with the number of collagen chains in the microfibril.
+
+Our analysis revealed a strong correlation between the number of chains in the microfibril and the computational time required. This number of chains is directly influenced by both the contact distance parameter and the desired fibril length, making it a useful metric for predicting performance across different configurations.
+
+Figure S5 illustrates the relationship between the number of collagen chains the wall clock time and the contact distance (dc). We observed that the computational time increases exponentially with the number of chains/contact distance. To provide context for these numbers, we can relate them back to the physical parameters of the microfibril. A typical configuration with a radius of \SI{12}{\nano\meter} (\(dc=\SI{45}{\angstrom}\)) and a fibril length of \SI{330}{\nano\meter} resulted in 271 chains and took around 6 minutes 34 seconds to generate. Increasing the contact distance to the double value (\(dc=\SI{90}{\angstrom}\)), corresponding to a radius of \SI{16.5}{\nano\meter}  while maintaining the same length increased the chain count to 739 and the computational time to 51 minutes and 25 seconds. 
+
+These performance metrics were obtained using a standard desktop computer with an Intel Core i5-9600K processor, 3x8 GB of DIMM DDR4 RAM, and an NVIDIA Corporation TU106 GPU, running Ubuntu 22.04.4 LTS. Overall, this desktop computer cannot handle contact distance exceeding \SI{100}{\angstrom} or radi larger than \SI{17}{\nano\meter} due to memory issues. It is worth noting that runtime may vary depending on the specific hardware configuration used. The observed computational efficiency of ColBuilder makes it a practical tool for researchers, enabling the efficient generation and iteration of collagen microfibril models for various studies in biomechanics and structural biology.
+
+\section*{ColBuilder web server}
+
+In addition to the command line application, we provide a web server application of ColBuilder. The web server is implemented within the Flask framework and offers the full functionality of the command line version for selected species and crosslink combinations. ColBuilder web server is freely available at: \href{https://colbuilder.mpip-mainz.mpg.de}{colbuilder.mpip-mainz.mpg.de}. 
+
+%Users can build \SI{335}{\nano\meter} long fibrils with up to \SI{}{\nano\meter} in diameter and download their results within two weeks.
+
+\section*{Conclusion}
+
+We have presented ColBuilder, a computational tool that automates the generation of collagen fibril structures with unprecedented control over their composition and architecture. The integration of homology modeling, higher-order structure generation, and Bravais lattice optimization allows researchers to systematically explore sequence variations, crosslinking patterns, and dimensional parameters that were previously challenging to investigate. The tool's web interface and command-line application make these capabilities accessible to both structural biologists and biophysics researchers, while its modular design facilitates future extensions.
+
+The ColBuilder project is actively developing. Current work focuses on expanding the crosslink library to include advanced glycation end-product (AGE) crosslinks and implementing topology generation for coarse-grained (Martini) force fields. The demonstrated capability to generate and simulate full-length fibrils establishes a foundation for investigating different collagen types and disease-specific modifications. The current starting point of ColBuilder is a model from X-ray scattering \cite{orgel2006microfibrillar}. ColBuilder will greatly profit from additional knowledge on collagen's hierarchical structure from other sources, being it electron microscopy, new data on crosslinking or other post-translational modifications from mass spectrometry, as well as better insights into the telopeptide packing from AlphaFold \cite{jumper2021highly} or other structure prediction methods. These developments will enable faithful computational studies of collagen mechanics across scales, from molecular interactions to tissue-level properties.
+
+%%%%%%%%%%%%%%
+\section*{Competing interests}
+No competing interest is declared.
+
+\section*{Author contributions statement}
+
+D.M. and M.B. designed and implemented ColBuilder, developed the computational framework, and performed the analysis. J.B. contributed to the software development and testing. V.V., T.S., and M.S. designed and implemented the web server interface. J.J. and Y.S. implemented and performed the molecular dynamics simulations on Fugaku. D.M., M.B., and F.G. wrote the manuscript with input from all authors. F.G. conceived and supervised the project.
+
+\section*{Data Availability Statement}
+FASTA files for collagen type I of all species discussed in this study are available in the ColBuilder GitHub repository. Scripts used in our simulations and code used for computational analyses are available in \href{https://github.com/debora-monego/colbuilder-paper}{github.com/debora-monego/colbuilder-paper}.
+
+\section*{Acknowledgments}
+This work was supported by the Klaus Tschira Foundation and the European Research Council (ERC) [grant number 101002812]. D.M. acknowledges funding from the Marie Skłodowska-Curie Actions Individual Fellowship [grant number 101151862]. F.G. acknowledges funding from the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) under Germany’s Excellence Strategy for the Excellence Cluster “3D Matter Made to Order” (EXC-2082/1-390761711). The authors acknowledge support by the state of Baden-Württemberg through bwHPC for computational resources on the bwForCluster Helix. Additional computational resources were provided by the RIKEN Center for Computational Science on Fugaku (Project ID: ra000003 and Project ID: hp230212). The web server was developed with the help of ChatGPT. 
+
+\section*{List of Supplementary Materials:}
+Supplementary text
+\\
+Figures S1 to S5
+\\
+Tables S1 and S2
+
+\bibliographystyle{unsrt}
+\bibliography{reference.bib}
+
+\end{document}

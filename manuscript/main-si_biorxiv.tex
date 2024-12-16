@@ -1,0 +1,265 @@
+\documentclass[10pt,letterpaper]{article}
+\usepackage[top=0.85in,left=0.5in,footskip=0.75in,marginparwidth=2in]{geometry}
+
+% use Unicode characters - try changing the option if you run into troubles with special characters (e.g. umlauts)
+\usepackage[utf8]{inputenc}
+
+% clean citations
+\usepackage{cite}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% hyperref makes references clicky. use \url{www.example.com} or \href{www.example.com}{description} to add a clicky url
+\usepackage{nameref,hyperref}
+
+% line numbers
+\usepackage[right]{lineno}
+
+\usepackage{ragged2e}
+\usepackage{caption}
+\DeclareCaptionLabelFormat{suppl}{#1~S#2}%
+
+% improves typesetting in LaTeX
+\usepackage{microtype}
+\DisableLigatures[f]{encoding = *, family = * }
+
+% text layout - change as needed
+\raggedright
+\setlength{\parindent}{0.5cm}
+\textwidth 7.5in 
+\textheight 8.75in
+
+% use adjustwidth environment to exceed text width (see examples in text)
+\usepackage{changepage}
+
+% adjust caption style
+\usepackage[aboveskip=1pt,labelfont=bf,labelsep=period,singlelinecheck=off]{caption}
+
+% remove brackets from references
+\makeatletter
+\renewcommand{\@biblabel}[1]{\quad#1.}
+\makeatother
+
+% headrule, footrule and page numbers
+\usepackage{lastpage,fancyhdr,graphicx}
+\usepackage{epstopdf}
+\pagestyle{myheadings}
+\pagestyle{fancy}
+\fancyhf{}
+\rfoot{\thepage/\pageref{LastPage}}
+\renewcommand{\footrule}{\hrule height 2pt \vspace{2mm}}
+\fancyheadoffset[L]{0.25in}
+\fancyfootoffset[L]{0.25in}
+
+% use \textcolor{color}{text} for colored text (e.g. highlight to-do areas)
+\usepackage{color}
+
+% define custom colors (this one is for figure captions)
+\definecolor{Gray}{gray}{.25}
+
+% this is required to include graphics
+\usepackage{graphicx}
+
+% use if you want to put caption to the side of the figure - see example in text
+\usepackage{sidecap}
+
+% use for have text wrap around figures
+\usepackage{wrapfig}
+\usepackage[pscoord]{eso-pic}
+\usepackage[fulladjust]{marginnote}
+\reversemarginpar
+
+%\usepackage{showframe}
+
+\graphicspath{{figures/}}
+
+% line numbers
+%\usepackage[mathlines, switch]{lineno}
+%\usepackage[right]{lineno}
+\usepackage{siunitx}
+\DeclareSIUnit\angstrom{\text {Å}}
+
+%\usepackage{tikz}
+\usepackage{bm}
+
+\usepackage{xcite}
+
+\usepackage{hyperref}
+
+\usepackage{xr}
+\makeatletter
+\newcommand*{\addFileDependency}[1]{% argument=file name and extension
+  \typeout{(#1)}% latexmk will find this if $recorder=0 (however, in that case, it will ignore #1 if it is a .aux or .pdf file etc and it exists! if it doesn't exist, it will appear in the list of dependents regardless)
+  \@addtofilelist{#1}% if you want it to appear in \listfiles, not really necessary and latexmk doesn't use this
+  \IfFileExists{#1}{}{\typeout{No file #1.}}% latexmk will find this message if #1 doesn't exist (yet)
+}
+\makeatother
+
+\newcommand*{\myexternaldocument}[1]{%
+    \externaldocument{#1}%
+    \addFileDependency{#1.tex}%
+    \addFileDependency{#1.aux}%
+}
+%%% END HELPER CODE
+
+% put all the external documents here!
+\myexternaldocument{main-si_biorxiv}
+
+% document begins here
+\begin{document}
+\vspace*{0.35in}
+
+\begin{flushleft}
+{\Large
+\textbf\newline{ColBuilder: Flexible structure generation of crosslinked collagen fibrils}
+}
+\newline
+% authors go here:
+\\
+Debora Monego\textsuperscript{1,2,*,†},
+Matthias Brosz\textsuperscript{2,3,†},
+Johanna Buck\textsuperscript{1,2,3},
+Vsevolod Viliuga\textsuperscript{1,4,5},
+Jaewoon Jung\textsuperscript{6,7},
+Torsten Stuehn\textsuperscript{1},
+Matthias Schmies\textsuperscript{1},
+Yuji Sugita\textsuperscript{6,7},
+Frauke Gr\"ater\textsuperscript{1,2,3,*}
+\\
+\bigskip
+\bf{1} Max Planck Institute for Polymer Research, Ackermannweg 10, Mainz, Germany
+\\
+\bf{2} Heidelberg Institute for Theoretical Studies, Am Schloss-Wolfsbrunnenweg 35, Heidelberg, Germany
+\\
+\bf{3} Institute for Scientific Computing, Heidelberg University, Im Neuenheimer Feld 205, Heidelberg, Germany
+\\
+\bf{4} Science for Life Laboratory, Tomtebodavägen 23, Solna, Sweden
+\\
+\bf{5} Department of Biochemistry and Biophysics, Stockholm University, Svante Arrhenius Väg 16C, Stockholm, Sweden
+\\
+\bf{6} Computational Biophysics Research Team, RIKEN Center for Computational Science, Kobe, Yogo, Japan
+\\
+\bf{7} Theoretical Molecular Science Laboratory, RIKEN Center for Computational Science, Wako, Saitama, Japan
+\\
+\bigskip
+† These authors contributed equally to this work
+\\
+* Corresponding authors: frauke.graeter@mpip-mainz.mpg.de, monegod@mpip-mainz.mpg.de
+
+\end{flushleft}
+
+\justifying
+
+\section*{Homology Modeling and Initial Structure Generation}
+
+Collagen triple helices for various species were modeled using ColBuilder, with \textit{Rattus novergicus} collagen type I as the reference. Sequence alignment was performed to assess conservation, and per-residue RMSD values were calculated to quantify structural differences. As shown in Figure S\ref{fig:SI_homology_rmsd_id}, the RMSD values for the human and rat collagen chains remain below \SI{1.5}{\angstrom}, indicating a high level of structural accuracy in our homology models.
+
+To further evaluate the consistency of the models across species, Table S\ref{table:SI_homology} shows the average sequence identity, per-residue RMSD, and axial rise per triplet for collagen triple helices generated for all species in our database. These values demonstrate consistent homology model quality, with RMSD values typically ranging between \SI{1.0}{}-\SI{1.4}{\angstrom}, supporting the reliability of our homology modeling procedure across a diverse set of species.
+
+\captionsetup{labelformat = suppl}
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/rmsd_seqiden.png}
+    \caption{Sequence alignment (solid color: identical, and gaps: diverging residues) and per-residue RMSD (line) between each chain of human (\textit{Homo sapiens}) and rat (\textit{Rattus novergicus}) collagen type I, shown at the bottom for reference. The magnitude of the RMSD (\SI{}{\angstrom}) is shown on the left, and the average sequence identity for each chain on the right.}
+    \label{fig:SI_homology_rmsd_id}
+\end{figure}
+
+\begin{table}[!ht]
+    \centering
+    \caption{Average sequence identity, per-residue RMSD \(\pm\) SD, and average axial rise per triplet \(\pm\) SD for collagen triple helices generated with ColBuilder. Collagen type I of \textit{Rattus novergicus} was used as a reference.}
+    \begin{tabular}{lccc}
+    \hline
+        \textbf{Species} & \textbf{Sequence Identity, \%} & \textbf{RMSD, \SI{}{\angstrom}} &\textbf{Axial Rise per Triplet, \SI{}{\angstrom}} \\ \hline
+        \textit{Otolemur garnettii} & 93.57 & 1.25 \(\pm\) 0.32 & 9.29 \(\pm\) 0.46 \\ 
+        \textit{Xiphophorus maculatus} & 72.01 & 1.39 \(\pm\) 0.10 & 9.26 \(\pm\) 0.45 \\ 
+        \textit{Tetraodonni groviridis} & 71.6  & 1.35 \(\pm\) 0.09 & 9.24 \(\pm\) 0.37 \\ 
+        \textit{Oreochromis niloticus} & 75.04 & 1.29 \(\pm\) 0.08 & 9.28 \(\pm\) 0.45 \\ 
+        \textit{Callithrix jacchus} & 94.81 & 1.22 \(\pm\) 0.3 & 9.27 \(\pm\) 0.44 \\ 
+        \textit{Pongo abelii} & 93.55 & 1.25 \(\pm\) 0.17 & 9.28 \(\pm\) 0.45 \\ 
+        \textit{Pelodiscus sinensis} & 83.29 & 1.24 \(\pm\) 0.16 & 9.23 \(\pm\) 0.38 \\ 
+        \textit{Pan troglodytes} & 94.72 & 1.08 \(\pm\) 0.28 & 9.28 \(\pm\) 0.44 \\ 
+        \textit{Mustela putorius} & 95.32 & 1.06 \(\pm\) 0.29 & 9.27 \(\pm\) 0.44 \\ 
+        \textit{Canis lupus} & 95.29 & 1.08 \(\pm\) 0.28 & 9.28 \(\pm\) 0.44 \\ 
+        \textit{Ailuropoda melanoleuca} & 93.74 & 1.28 \(\pm\) 0.13 & 9.27 \(\pm\) 0.50 \\ 
+        \textit{Homo sapiens} & 85.3 & 1.12 \(\pm\) 0.32 & 9.28 \(\pm\) 0.44 \\ 
+        \textit{Danio rerio} & 75.43 & 1.23 \(\pm\) 0.01 & 9.28 \(\pm\) 0.46 \\ 
+        \textit{Mus musculus} & 97.64 & 1.12 \(\pm\) 0.26 & 9.29 \(\pm\) 0.46 \\ 
+        \textit{Loxodonta africana} & 90.17 & 1.22 \(\pm\) 0.20 & 9.25 \(\pm\) 0.43 \\ 
+        \textit{Bos taurus} & 94.49 & 1.08 \(\pm\) 0.27 & 9.3 \(\pm\) 0.44 \\ 
+        \textit{Oryzias latipes} & 75.04 & 1.29 \(\pm\) 0.08 & 9.28 \(\pm\) 0.45 \\ 
+        \textit{Myotis lucifugus} & 94.5 & 1.08 \(\pm\) 0.28 & 9.29 \(\pm\) 0.46 \\ \hline
+    \end{tabular}
+    \label{table:SI_homology}
+\end{table}
+
+\section*{Higher-Order Crystal Structural Generation}
+
+\subsubsection*{Contact distance parameter}
+
+The radius of collagen fibrils was determined using a geometric approach based on the spatial distribution of atoms in the PDB files. The x and y coordinates of all atoms were extracted to create a 2D projection of the fibril structure. A convex hull was then computed from these coordinates using SciPy's \textit{ConvexHull} function, representing the outer boundary of the fibril cross-section. The centroid of all atomic coordinates was calculated as the mean of all x and y coordinates. Distances from this centroid to each point on the convex hull were computed, and the radius of the fibril was defined as the 95th percentile of these distances. This approach was chosen to provide a robust estimate of the fibril's outer boundary while accounting for potential outliers. To quantify the uncertainty in the radius calculation, we used the interquartile range (IQR) of the centroid-to-hull distances. The radius error was calculated as half of the IQR, offering a conservative estimate of the measurement uncertainty that is resistant to outliers. This method allows for a robust estimation of fibril radius that is less sensitive to local irregularities in the atomic coordinates, while providing a reliable measure of the variability in the fibril's cross-sectional shape.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{figures/radius_fit.png}
+    \caption{Dependence of fibril radius (\SI{}{\angstrom}) with ColBuilder.0 parameter contact distance \textit{dc} (\SI{}{\angstrom}). Users can determine the approximate \textit{dc} value needed to produce a fibril of a given radius by solving for x in the regression equation for the fitting.}
+    \label{fig:SI_contact_distance_vs_radius}
+\end{figure}
+
+\subsubsection*{All-atom simulations}
+
+The end-to-end distance was calculated as the Euclidean distance between the mean positions of the ACE (N-terminal) and NME (C-terminal) cap residues. This measure represents the overall extension of the collagen molecule.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{figures/end-to-end_distance.png}
+    \caption{Overall extension of collagen fibril, represented by the end-to-end distance (\SI{}{\nano\meter}) for pure (green, 100\% PYD crosslinks), mutated (purple, 70\% PYD) and mixed (orange, 50\% PYD and 50\% HLKNL) collagen fibrils. End-to-end distances were calculated as the Euclidian distance between the mean positions of the ACE (N-terminal) and NME (C-terminal) cap residues.}
+    \label{fig:SI_e2e_distance}
+\end{figure}
+
+The error bars in Figure 3 B and C in the main text represent the standard error of the mean for D-band distances and overlap/gap strain ratios in our collagen molecular dynamics simulations. We used K-means clustering to identify cross-linking residues and determine overlap and gap regions for each simulation frame. Standard errors for overlap and gap measurements were calculated from the spread of residue positions within clusters. For overlap/gap strain ratios, we propagated these errors using standard techniques. D-band distance errors, in turn, combine two components: (1) the propagated frame-wise overlap and gap errors, and (2) a bootstrap error estimate. The latter used a 10-frame sliding window with 1000 resamples per window. We combined these components using a root-mean-square method. This approach captures both local configurational variability and broader trajectory fluctuations, providing an integrated representation of uncertainty in our simulated collagen systems.
+
+\section*{Crosslinks}
+
+ColBuilder uses a standardized format to define crosslinks between collagen molecules. Each crosslink is specified by a combination of its chemical type (\ref{fig:SI_crosslinks}), the residues involved, and their precise connection points at the atomic level. The definition includes information about the original residue (typically lysine), its terminal location (N or C), the specific residue positions involved in the crosslink, and the detailed atomic connections. For trivalent crosslinks like PYD, three connection points are specified, while divalent crosslinks like HLKNL require only two. Table~\ref{table:SI_crosslinks_def} shows examples of these definitions for \textit{Homo sapiens}, illustrating the format for different crosslink types.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{figures/crosslinks-structures.png}
+    \caption{Chemical structure of crosslinks available in ColBuilder.}
+    \label{fig:SI_crosslinks}
+\end{figure}
+
+\begin{table}[!ht]
+    \centering
+    \small
+    \caption{Example of crosslink definitions in ColBuilder for \textit{Homo sapiens}. Fields are: OR (original residue), terminal (N/C terminal), combination (residue positions involved), type (crosslink type), R1/A1/P1 (first residue/atom/position), R2/A2/P2 (second residue/atom/position), and R3/A31/A32/P3 (third residue/atoms/position for trivalent crosslinks).}
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{l>{\raggedright\arraybackslash}p{0.8cm}l>{\raggedright\arraybackslash}p{1.2cm}lllllllllll}
+    \hline
+    OR & term & combination & type & R1 & A1 & P1 & R2 & A2 & P2 & R3 & A31 & A32 & P3 \\ \hline
+    LYS & C & 1047.C-1047.A-104.C & PYD & LY3 & CG & 1047.C & LY2 & CB & 1047.A & LYX & C13 & C12 & 104.C \\
+    LYS & N & 9.C-5.B-944.B & PYD & LY3 & CG & 9.C & LY2 & CB & 5.B & LYX & C13 & C12 & 944.B \\
+    LYS & C & 1047.C-104.C & HLKNL & L5Y & NZ & 1047.C & L4Y & CE & 104.C & NONE & NONE & NONE & NONE \\
+    LYS & N & 5.B-944.B & HLKNL & L5Y & NZ & 5.B & L4Y & CE & 944.B & NONE & NONE & NONE & NONE \\
+    LYS & C & 1047.C-104.C & NOCROSS & NONE & NONE & NONE & NONE & NONE & NONE & NONE & NONE & NONE & NONE \\ \hline
+    \end{tabular}
+    \label{table:SI_crosslinks_def}
+    \raggedright
+    \small Notes: PYD = pyridinoline (trivalent), HLKNL = hydroxylysinonorleucine (divalent), NOCROSS = no crosslink. Positions are given in residue.chain format. For trivalent crosslinks, R3/A31/A32/P3 specify the third connection point (A1 binds to A31 and A2 binds to A32, while divalent crosslinks use NONE for these fields.
+\end{table}
+
+\section*{Computational Performance}
+
+We evaluated ColBuilder's computational efficiency by measuring wall clock time as a function of system size, characterized by both contact distance (dc) and the resulting number of triple helices. As shown in Figure~\ref{fig:SI_comp}, the computational time increases exponentially with contact distance, reflecting the growing complexity of structure generation and optimization as more helices are included in the fibril.
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.6\textwidth]{figures/comp_performance.png}
+    \caption{The wall clock time vs. the contact distance dc and count of helices. The figure shows the exponential behavior of the time vs. the contact distance for both shown lengths of fibrils.}
+    \label{fig:SI_comp}
+\end{figure}
+System Specifications:\\
+Processor: Intel Core i5-9600K processor, CPU family: 6, Model:158, Thread(s) per core: 1, Core(s) per socket: 6, Socket(s): 1, Stepping: 12, @ 3.70GHz \\
+RAM: 3x DIMM DDR4 Synchronous Unbuffered ,size: 8GB, width: 64 bits,clock: 2666MHz (0.4ns)\\
+GPU: NVIDIA Corporation TU106 GPU (NVIDIA-SMI 550.107.02 ), running Ubuntu 22.04.4 LTS\\
+
+\end{document}
